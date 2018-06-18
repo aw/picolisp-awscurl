@@ -2,7 +2,7 @@
 
 [de APP_INFO
   ("name"      "awscurl")
-  ("version"   "0.5.3")
+  ("version"   "0.5.4")
   ("summary"   "PicoLisp AWS CLI tool using OpenSSL and Curl")
   ("source"    "https://github.com/aw/picolisp-awscurl")
   ("author"    "Alexander Williams")
@@ -12,17 +12,17 @@
 [de APP_HELP
   ("usage"     "./awscurl.l [options]")
   ("example"   "./awscurl.l --service s3 --host awscurl.s3.amazonaws.com --endpoint /mybucket --query 'a=Prefix&b=Marker'^J")
-  ("options"   ("--help^I"                "     Show this help message and exit")
+  ("options"   ("--help"                  "Show this help message and exit")
                ()
-               ("--data <data>^I^I"       "HTTP POST data (default: None)")
-               ("--endpoint <endpoint>^I" "The API endpoint of the AWS service (default: /)")
+               ("--data <data>"           "HTTP POST data (default: None)")
+               ("--endpoint <endpoint>"   "The API endpoint of the AWS service (default: /)")
                ("--header <key> <value>"  "HTTP header data (default: None)")
-               ("--host <host>^I^I"       "The Host of the AWS service (default: ec2.amazonaws.com)")
-               ("--query <query>^I"       "The Query parameters of the AWS service (default: None)")
-               ("--region <region>^I"     "AWS region (default: us-east-2)")
-               ("--request <method>^I"    "Specify request method to use (default: GET)")
-               ("--service <service>^I"   "AWS service (default: ec2)")
-               ("--verbose^I^I"           "Verbose flag (default: False)")
+               ("--host <host>"           "The Host of the AWS service (default: ec2.amazonaws.com)")
+               ("--query <query>"         "The Query parameters of the AWS service (default: None)")
+               ("--region <region>"       "AWS region (default: us-east-2)")
+               ("--request <method>"      "Specify request method to use (default: GET)")
+               ("--service <service>"     "AWS service (default: ec2)")
+               ("--verbose"               "Verbose flag (default: False)")
                ()
                ("Environment variables: AWS_PROFILE, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN/AWS_SECURITY_TOKEN^J  Reads ~/.aws/credentials if an environment variable isn't set." ]
 
@@ -123,7 +123,7 @@
   (pipe (out Cmd (prin Msg)) (line) ]
 
 [de tc-options (N)
-  (tab  (2 -10 5) " " (car N) (cdr N) ]
+  (tab  (2 -22 5) " " (car N) (cdr N) ]
 
 [de tc-show-help ()
   (prinl
@@ -132,9 +132,10 @@
     "License " (cdr (assoc "license" APP_INFO)) "^J^J"
     (cdr (assoc "summary" APP_INFO)) "^J"
     (cdr (assoc "source" APP_INFO)) "^J^J"
-    "Usage:^I^I" (cdr (assoc "usage" APP_HELP)) "^J^J"
-    "Example:^I" (cdr (assoc "example" APP_HELP)) "^J"
-    "Options:^J" (mapcar tc-options (cdr (assoc "options" APP_HELP))) ]
+    (tc-options (list "Usage:" (cdr (assoc "usage" APP_HELP)))) "^J"
+    (tc-options (list "Example:" (cdr (assoc "example" APP_HELP))))
+    (tc-options (list "Options:"))
+    (mapcar tc-options (cdr (assoc "options" APP_HELP))) ]
 
 ### start
 (ifn  (argv)
