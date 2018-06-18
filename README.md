@@ -1,4 +1,4 @@
-# Use Curl and OpenSSL to sign and make AWS requests
+# PicoLisp AWS CLI tool using OpenSSL and Curl
 
 This command line tool can be used to sign [AWS Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html) requests and make calls to various AWS APIs.
 
