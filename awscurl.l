@@ -2,7 +2,7 @@
 
 [de APP_INFO
   ("name"      "awscurl")
-  ("version"   "0.1.0")
+  ("version"   "0.2.0")
   ("summary"   "Use Curl and OpenSSL to sign and make AWS requests")
   ("source"    "https://github.com/aw/picolisp-awscurl")
   ("author"    "Alexander Williams")
@@ -10,8 +10,8 @@
   ("copyright" "(c) 2018 Alexander Williams, Unscramble <license@unscramble.jp>") ]
 
 [de APP_HELP
-  ("usage"     "./awscurl [options]")
-  ("example"   "./awscurl --service s3 --host awscurl.s3.amazonaws.com --endpoint /mybucket --query 'a=Prefix&b=Marker'^J")
+  ("usage"     "./awscurl.l [options]")
+  ("example"   "./awscurl.l --service s3 --host awscurl.s3.amazonaws.com --endpoint /mybucket --query 'a=Prefix&b=Marker'^J")
   ("options"   ("--help^I"                "     Show this help message and exit")
                ()
                ("--verbose^I^I"           "Verbose flag (default: False)")

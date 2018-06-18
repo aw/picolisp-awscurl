@@ -53,7 +53,7 @@ If any of those environment variables are not set, the values will be read from 
 # Options
 
 ```
-Usage:		./awscurl [options]
+Usage:		./awscurl.l [options]
 
 Options:
   --help	            Show this help message and exit
