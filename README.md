@@ -60,17 +60,17 @@ If any of those environment variables are not set, the values will be read from 
 Usage:		./awscurl.l [options]
 
 Options:
-  --help	            Show this help message and exit
+  --help              Show this help message and exit
 
-  --verbose		    Verbose flag (default: False)
-  --request <method>	    Specify request method to use (default: GET)
-  --data <data>		    HTTP POST data (default: None)
+  --data <data>       HTTP POST data (default: None)
+  --endpoint <endpoint>     The API endpoint of the AWS service (default: /)
   --header <key> <value>    HTTP header data (default: None)
-  --region <region>	    AWS region (default: us-east-2)
-  --service <service>	    AWS service (default: ec2)
-  --host <host>		    The Host of the AWS service (default: ec2.amazonaws.com)
-  --endpoint <endpoint>	    The API endpoint of the AWS service (default: /)
-  --query <query>	    The Query parameters of the AWS service (default: None)
+  --host <host>       The Host of the AWS service (default: ec2.amazonaws.com)
+  --query <query>     The Query parameters of the AWS service (default: None)
+  --region <region>     AWS region (default: us-east-2)
+  --request <method>      Specify request method to use (default: GET)
+  --service <service>     AWS service (default: ec2)
+  --verbose       Verbose flag (default: False)
 ```
 
 # Contributing

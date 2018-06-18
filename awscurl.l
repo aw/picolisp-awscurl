@@ -2,7 +2,7 @@
 
 [de APP_INFO
   ("name"      "awscurl")
-  ("version"   "0.5.0")
+  ("version"   "0.5.1")
   ("summary"   "Use Curl and OpenSSL to sign and make AWS requests")
   ("source"    "https://github.com/aw/picolisp-awscurl")
   ("author"    "Alexander Williams")
@@ -14,15 +14,15 @@
   ("example"   "./awscurl.l --service s3 --host awscurl.s3.amazonaws.com --endpoint /mybucket --query 'a=Prefix&b=Marker'^J")
   ("options"   ("--help^I"                "     Show this help message and exit")
                ()
-               ("--verbose^I^I"           "Verbose flag (default: False)")
-               ("--request <method>^I"    "Specify request method to use (default: GET)")
                ("--data <data>^I^I"       "HTTP POST data (default: None)")
-               ("--header <key> <value>"  "HTTP header data (default: None)")
-               ("--region <region>^I"     "AWS region (default: us-east-2)")
-               ("--service <service>^I"   "AWS service (default: ec2)")
-               ("--host <host>^I^I"       "The Host of the AWS service (default: ec2.amazonaws.com)")
                ("--endpoint <endpoint>^I" "The API endpoint of the AWS service (default: /)")
+               ("--header <key> <value>"  "HTTP header data (default: None)")
+               ("--host <host>^I^I"       "The Host of the AWS service (default: ec2.amazonaws.com)")
                ("--query <query>^I"       "The Query parameters of the AWS service (default: None)")
+               ("--region <region>^I"     "AWS region (default: us-east-2)")
+               ("--request <method>^I"    "Specify request method to use (default: GET)")
+               ("--service <service>^I"   "AWS service (default: ec2)")
+               ("--verbose^I^I"           "Verbose flag (default: False)")
                ()
                ("Environment variables: AWS_PROFILE, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN/AWS_SECURITY_TOKEN^J  Reads ~/.aws/credentials if an environment variable isn't set." ]
 
