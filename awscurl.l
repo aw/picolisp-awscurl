@@ -89,7 +89,7 @@
                   # use the values in the config if they weren't set from environment variables
                   ["aws_access_key_id"      (prog1 (++ L) (unless *Aws_access_key     (setq *Aws_access_key     (pack @) ]
                   ["aws_secret_access_key"  (prog1 (++ L) (unless *Aws_secret_key     (setq *Aws_secret_key     (pack @) ]
-                  ["aws_session_token"      (prog1 (++ L) (unless *Aws_session_token  (setq *Aws_session_token (pack @) ]
+                  ["aws_session_token"      (prog1 (++ L) (unless *Aws_session_token  (setq *Aws_session_token  (pack @) ]
                   (T (++ L) ]
 
 [de awscurl-start ()
