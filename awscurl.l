@@ -2,7 +2,7 @@
 
 [de APP_INFO
   ("name"      "awscurl")
-  ("version"   "0.3.0")
+  ("version"   "0.4.0")
   ("summary"   "Use Curl and OpenSSL to sign and make AWS requests")
   ("source"    "https://github.com/aw/picolisp-awscurl")
   ("author"    "Alexander Williams")
@@ -36,7 +36,7 @@
   *Aws_access_key       (sys "AWS_ACCESS_KEY_ID")
   *Aws_secret_key       (sys "AWS_SECRET_ACCESS_KEY")
   *Aws_session_token    (if (sys "AWS_SESSION_TOKEN") @ (sys "AWS_SECURITY_TOKEN")) # AWS_SECURITY_TOKEN is deprecated
-  *Aws_request_date     (dat$ (date))
+  *Aws_request_date     (dat$ (date T))
   *Aws_request_time     (pack (mapcar '((S) (pad 2 S)) (time (time T)))) )
 
 ### main
