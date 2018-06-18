@@ -83,6 +83,7 @@ If you want to improve this tool, please make a pull-request.
 # Why
 
 **Q:** Why not use `python-aws`, `awscurl`, `Ansible`, `Packer`, or one of many other available AWS SDKs?
+
 **A:** Size. It seems every single tool in existence is incredibly bloated and contains too many dependencies, too many features, and too much complexity. I really just wanted to make a handful of `EC2` calls from the command-line. This tool is slightly more flexible than what I needed, but it works _without_ any external dependencies other than what's already deployed on most Linux systems. For comparison, `Python awscurl` and its dependencies are `~18MB`, whereas this `PicoLisp awscurl` is `~6KB` on disk.
 
 # License
