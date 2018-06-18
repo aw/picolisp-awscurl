@@ -2,7 +2,7 @@
 
 [de APP_INFO
   ("name"      "awscurl")
-  ("version"   "0.2.0")
+  ("version"   "0.3.0")
   ("summary"   "Use Curl and OpenSSL to sign and make AWS requests")
   ("source"    "https://github.com/aw/picolisp-awscurl")
   ("author"    "Alexander Williams")
@@ -24,7 +24,7 @@
                ("--endpoint <endpoint>^I" "The API endpoint of the AWS service (default: /)")
                ("--query <query>^I"       "The Query parameters of the AWS service (default: None)")
                ()
-               ("Environment variables: AWS_PROFILE, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SECURITY_TOKEN^J  Reads ~/.aws/credentials if an environment variable isn't set." ]
+               ("Environment variables: AWS_PROFILE, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN/AWS_SECURITY_TOKEN^J  Reads ~/.aws/credentials if an environment variable isn't set." ]
 
 (setq
   *Aws_method           "GET"
@@ -35,7 +35,7 @@
   *Aws_profile          (if (sys "AWS_PROFILE") @ "default")
   *Aws_access_key       (sys "AWS_ACCESS_KEY_ID")
   *Aws_secret_key       (sys "AWS_SECRET_ACCESS_KEY")
-  *Aws_security_token   (sys "AWS_SECURITY_TOKEN")
+  *Aws_session_token    (if (sys "AWS_SESSION_TOKEN") @ (sys "AWS_SECURITY_TOKEN")) # AWS_SECURITY_TOKEN is deprecated
   *Aws_request_date     (dat$ (date))
   *Aws_request_time     (pack (mapcar '((S) (pad 2 S)) (time (time T)))) )
 
@@ -89,18 +89,19 @@
                   # use the values in the config if they weren't set from environment variables
                   ["aws_access_key_id"      (prog1 (++ L) (unless *Aws_access_key     (setq *Aws_access_key     (pack @) ]
                   ["aws_secret_access_key"  (prog1 (++ L) (unless *Aws_secret_key     (setq *Aws_secret_key     (pack @) ]
-                  ["aws_session_token"      (prog1 (++ L) (unless *Aws_security_token (setq *Aws_security_token (pack @) ]
+                  ["aws_session_token"      (prog1 (++ L) (unless *Aws_session_token  (setq *Aws_session_token (pack @) ]
                   (T (++ L) ]
 
 [de awscurl-start ()
   (awscurl-get-credentials)
   (let (Sha256    (awscurl-parse-openssl *Aws_data)
         Headers   (by car sort (append
-                                (when *Aws_data (list (cons "content-length" (length *Aws_data))))
+                                (when *Aws_data (list (cons "content-length" (length @))))
                                 (list
                                   (cons "host" *Aws_host)
                                   (cons "x-amz-content-sha256" Sha256)
                                   (cons "x-amz-date" (pack *Aws_request_date "T" *Aws_request_time "Z")) )
+                                (when *Aws_session_token (list (cons "x-amz-security-token" @)))
                                 *Aws_headers ) )
         Canonical (awscurl-make-canonical Sha256 Headers)
         Str2sign  (awscurl-make-canonical-hash Canonical)

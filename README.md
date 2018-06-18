@@ -26,7 +26,7 @@ The following environment variables are used:
   * `AWS_PROFILE`: Default: `default`
   * `AWS_ACCESS_KEY_ID`
   * `AWS_SECRET_ACCESS_KEY`
-  * `AWS_SECURITY_TOKEN`
+  * `AWS_SESSION_TOKEN` or `AWS_SECURITY_TOKEN` (deprecated)
 
 If any of those environment variables are not set, the values will be read from `$HOME/.aws/credentials` using the `[default]` or `$AWS_PROFILE` profile.
 
