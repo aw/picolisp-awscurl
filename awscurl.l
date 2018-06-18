@@ -2,7 +2,7 @@
 
 [de APP_INFO
   ("name"      "awscurl")
-  ("version"   "0.4.2")
+  ("version"   "0.5.0")
   ("summary"   "Use Curl and OpenSSL to sign and make AWS requests")
   ("source"    "https://github.com/aw/picolisp-awscurl")
   ("author"    "Alexander Williams")
@@ -96,11 +96,11 @@
           (in Credentials (while (and (from (pack "[" *Aws_profile "]")) (till "["))
             (let Keys (clip (split @ "^J" "=")) # remove newlines and split into key=value pairs
               (for (L Keys L)
-                (case (pack (++ L))
+                (case (pack (clip (++ L)))
                   # use the values in the config if they weren't set from environment variables
-                  ["aws_access_key_id"      (prog1 (++ L) (unless *Aws_access_key     (setq *Aws_access_key     (pack @) ]
-                  ["aws_secret_access_key"  (prog1 (++ L) (unless *Aws_secret_key     (setq *Aws_secret_key     (pack @) ]
-                  ["aws_session_token"      (prog1 (++ L) (unless *Aws_session_token  (setq *Aws_session_token  (pack @) ]
+                  ["aws_access_key_id"      (prog1 (clip (++ L)) (unless *Aws_access_key     (setq *Aws_access_key     (pack @) ]
+                  ["aws_secret_access_key"  (prog1 (clip (++ L)) (unless *Aws_secret_key     (setq *Aws_secret_key     (pack @) ]
+                  ["aws_session_token"      (prog1 (clip (++ L)) (unless *Aws_session_token  (setq *Aws_session_token  (pack @) ]
                   (T (++ L) ]
 
 [de awscurl-start ()
