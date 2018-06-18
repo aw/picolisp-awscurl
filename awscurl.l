@@ -2,7 +2,7 @@
 
 [de APP_INFO
   ("name"      "awscurl")
-  ("version"   "0.4.0")
+  ("version"   "0.4.1")
   ("summary"   "Use Curl and OpenSSL to sign and make AWS requests")
   ("source"    "https://github.com/aw/picolisp-awscurl")
   ("author"    "Alexander Williams")
@@ -76,6 +76,17 @@
     (glue ";"  (mapcar car Headers)) "^J"
     Hash ]
 
+[de awscurl-sort-headers (Sha256)
+  (by car sort
+    (append
+      (list
+        (cons "host" *Aws_host)
+        (cons "x-amz-content-sha256" Sha256)
+        (cons "x-amz-date" (pack *Aws_request_date "T" *Aws_request_time "Z")) )
+      (when *Aws_data (list (cons "content-length" (length @))))
+      (when *Aws_session_token (list (cons "x-amz-security-token" @)))
+      *Aws_headers ]
+
 [de awscurl-parse-openssl (Payload . @)
   (pack (clip (cadr (split (tc-call-msg (append (list 'openssl "dgst" "-sha256") (when (rest) @)) Payload) "=") ]
 
@@ -95,14 +106,7 @@
 [de awscurl-start ()
   (awscurl-get-credentials)
   (let (Sha256    (awscurl-parse-openssl *Aws_data)
-        Headers   (by car sort (append
-                                (when *Aws_data (list (cons "content-length" (length @))))
-                                (list
-                                  (cons "host" *Aws_host)
-                                  (cons "x-amz-content-sha256" Sha256)
-                                  (cons "x-amz-date" (pack *Aws_request_date "T" *Aws_request_time "Z")) )
-                                (when *Aws_session_token (list (cons "x-amz-security-token" @)))
-                                *Aws_headers ) )
+        Headers   (awscurl-sort-headers Sha256)
         Canonical (awscurl-make-canonical Sha256 Headers)
         Str2sign  (awscurl-make-canonical-hash Canonical)
         Signature (awscurl-make-signature Str2sign)
