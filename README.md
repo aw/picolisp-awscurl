@@ -19,6 +19,8 @@ This command line tool can be used to sign [AWS Signature Version 4](https://doc
 
 # Usage
 
+**WARNING:** There is currently **no validation** on command line arguments. Be careful the input you provide. [See issue #1](#1)
+
 ### Environment variables
 
 The following environment variables are used:
