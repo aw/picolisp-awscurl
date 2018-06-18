@@ -2,7 +2,7 @@
 
 [de APP_INFO
   ("name"      "awscurl")
-  ("version"   "0.5.2")
+  ("version"   "0.5.3")
   ("summary"   "PicoLisp AWS CLI tool using OpenSSL and Curl")
   ("source"    "https://github.com/aw/picolisp-awscurl")
   ("author"    "Alexander Williams")
@@ -58,6 +58,7 @@
         B (awscurl-make-hmac (pack "hexkey:" A) *Aws_region)
         C (awscurl-make-hmac (pack "hexkey:" B) *Aws_service)
         D (awscurl-make-hmac (pack "hexkey:" C) "aws4_request") )
+
     (awscurl-make-hmac (pack "hexkey:" D) Str2sign) ]
 
 [de awscurl-make-canonical-hash (Canonical)
