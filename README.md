@@ -19,7 +19,9 @@ This command line tool can be used to sign [AWS Signature Version 4](https://doc
 
 # Usage
 
-**WARNING:** There is currently **no validation** on command line arguments. Be careful the input you provide. [See issue #1](#1)
+## WARNING
+
+There is currently **no validation** on command line arguments. Be careful the input you provide. [See issue #1](https://github.com/aw/picolisp-awscurl/issues/1)
 
 ### Environment variables
 
