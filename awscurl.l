@@ -2,7 +2,7 @@
 
 [de APP_INFO
   ("name"      "awscurl")
-  ("version"   "0.4.1")
+  ("version"   "0.4.2")
   ("summary"   "Use Curl and OpenSSL to sign and make AWS requests")
   ("source"    "https://github.com/aw/picolisp-awscurl")
   ("author"    "Alexander Williams")
@@ -136,20 +136,20 @@
     "Options:^J" (mapcar tc-options (cdr (assoc "options" APP_HELP))) ]
 
 ### start
-(if (=0 (length (argv)))
-    (tc-show-help)
-    (while (opt)
-      (case @
-        (--verbose  (setq *Aws_verbose T))
-        (--request  (setq *Aws_method   (opt)))
-        (--data     (setq *Aws_data     (opt)))
-        (--header   (awscurl-headers    (opt) (opt)))
-        (--region   (setq *Aws_region   (opt)))
-        (--service  (setq *Aws_service  (opt)))
-        (--host     (setq *Aws_host     (opt)))
-        (--endpoint (setq *Aws_endpoint (opt)))
-        (--query    (setq *Aws_query    (opt)))
-        (T          (tc-show-help) (bye 1)) ) )
-    (awscurl-start) )
+(ifn  (argv)
+      (tc-show-help)
+      (while (opt)
+        (case @
+          (--verbose  (on *Aws_verbose))
+          (--request  (setq *Aws_method   (opt)))
+          (--data     (setq *Aws_data     (opt)))
+          (--header   (awscurl-headers    (opt) (opt)))
+          (--region   (setq *Aws_region   (opt)))
+          (--service  (setq *Aws_service  (opt)))
+          (--host     (setq *Aws_host     (opt)))
+          (--endpoint (setq *Aws_endpoint (opt)))
+          (--query    (setq *Aws_query    (opt)))
+          (T          (tc-show-help) (bye 1)) ) )
+      (awscurl-start) )
 
 (bye)
