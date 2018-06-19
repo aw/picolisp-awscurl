@@ -2,7 +2,7 @@
 
 [de APP_INFO
   ("name"      "awscurl")
-  ("version"   "0.6.0")
+  ("version"   "0.6.1")
   ("summary"   "PicoLisp AWS CLI tool using OpenSSL and Curl")
   ("source"    "https://github.com/aw/picolisp-awscurl")
   ("author"    "Alexander Williams")
@@ -40,15 +40,15 @@
   *Aws_request_time     (pack (mapcar '((S) (pad 2 S)) (time (time T)))) )
 
 ### main
+[de awscurl-make-curl (Cmd)
+  (prin (in Cmd (till NIL T) ]
+
 [de awscurl-make-request (Auth Headers)
-  (prin
-    (in
-      (make
-        (link 'curl "--silent" "--request" *Aws_method (pack "https://" *Aws_host *Aws_endpoint (when *Aws_query (pack "?" @))) "--header" Auth)
-        (mapc '((S) (link "--header" (pack (car S) ": " (cdr S)))) Headers)
-        (when *Aws_data     (link "--data" (cdr *Aws_data)))
-        (when *Aws_verbose  (link "--verbose")) )
-      (till NIL T) ]
+  (make
+    (link 'curl "--silent" "--request" *Aws_method (pack "https://" *Aws_host *Aws_endpoint (when *Aws_query (pack "?" @))) "--header" Auth)
+    (mapc '((S) (link "--header" (pack (car S) ": " (cdr S)))) Headers)
+    (when *Aws_data     (link "--data" (cdr *Aws_data)))
+    (when *Aws_verbose  (link "--verbose") ]
 
 [de awscurl-make-auth-header (Headers Signature)
    (pack "Authorization: AWS4-HMAC-SHA256 Credential=" *Aws_access_key "/" *Aws_request_date "/" *Aws_region "/" *Aws_service "/aws4_request, SignedHeaders=" (glue ";"  (mapcar car Headers)) ", Signature=" Signature) ]
@@ -119,7 +119,7 @@
         Signature (awscurl-make-signature Str2sign)
         Auth      (awscurl-make-auth-header Headers Signature) )
 
-    (awscurl-make-request Auth Headers) ]
+    (awscurl-make-curl (awscurl-make-request Auth Headers)) ]
 
 [de awscurl-data (Value)
   (let Data (chop Value)
