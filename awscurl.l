@@ -2,7 +2,7 @@
 
 [de APP_INFO
   ("name"      "awscurl")
-  ("version"   "0.5.4")
+  ("version"   "0.5.5")
   ("summary"   "PicoLisp AWS CLI tool using OpenSSL and Curl")
   ("source"    "https://github.com/aw/picolisp-awscurl")
   ("author"    "Alexander Williams")
@@ -43,12 +43,15 @@
 [de awscurl-make-request (Auth Headers)
   (prin
     (in
-      (append
-        (list 'curl "--silent" "--request" *Aws_method (pack "https://" *Aws_host *Aws_endpoint (when *Aws_query (pack "?" @))) "--header" Auth)
-        (mapcan '((S) (list "--header" (pack (car S) ": " (cdr S)))) Headers)
-        (when *Aws_data (list "--data" *Aws_data))
-        (when *Aws_verbose (list "--verbose")) )
+      (make
+        (link 'curl "--silent" "--request" *Aws_method (pack "https://" *Aws_host *Aws_endpoint (when *Aws_query (pack "?" @))) "--header" Auth)
+        (mapc '((S) (link "--header" (pack (car S) ": " (cdr S)))) Headers)
+        (when *Aws_data     (link "--data" *Aws_data))
+        (when *Aws_verbose  (link "--verbose")) )
       (till NIL T) ]
+
+[de awscurl-make-auth-header (Headers Signature)
+   (pack "Authorization: AWS4-HMAC-SHA256 Credential=" *Aws_access_key "/" *Aws_request_date "/" *Aws_region "/" *Aws_service "/aws4_request, SignedHeaders=" (glue ";"  (mapcar car Headers)) ", Signature=" Signature) ]
 
 [de awscurl-make-hmac (Key Payload)
   (awscurl-parse-openssl Payload "-mac" "HMAC" "-macopt" Key) ]
@@ -79,17 +82,17 @@
 
 [de awscurl-sort-headers (Sha256)
   (by car sort
-    (append
-      (list
+    (make
+      (link
         (cons "host" *Aws_host)
         (cons "x-amz-content-sha256" Sha256)
         (cons "x-amz-date" (pack *Aws_request_date "T" *Aws_request_time "Z")) )
-      (when *Aws_data (list (cons "content-length" (length @))))
-      (when *Aws_session_token (list (cons "x-amz-security-token" @)))
-      *Aws_headers ]
+      (when *Aws_data           (link (cons "content-length" (length @))))
+      (when *Aws_session_token  (link (cons "x-amz-security-token" @)))
+      (mapc link *Aws_headers) ]
 
 [de awscurl-parse-openssl (Payload . @)
-  (pack (clip (cadr (split (tc-call-msg (append (list 'openssl "dgst" "-sha256") (when (rest) @)) Payload) "=") ]
+  (pack (clip (cadr (split (tc-call-msg (make (link 'openssl "dgst" "-sha256") (when (rest) (chain @))) Payload) "=") ]
 
 [de awscurl-get-credentials ()
   (let Credentials (pack (sys "HOME") "/.aws/credentials") # ~/.aws/credentials
@@ -111,7 +114,7 @@
         Canonical (awscurl-make-canonical Sha256 Headers)
         Str2sign  (awscurl-make-canonical-hash Canonical)
         Signature (awscurl-make-signature Str2sign)
-        Auth      (pack "Authorization: AWS4-HMAC-SHA256 Credential=" *Aws_access_key "/" *Aws_request_date "/" *Aws_region "/" *Aws_service "/aws4_request, SignedHeaders=" (glue ";"  (mapcar car Headers)) ", Signature=" Signature) )
+        Auth      (awscurl-make-auth-header Headers Signature) )
 
     (awscurl-make-request Auth Headers) ]
 
