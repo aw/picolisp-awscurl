@@ -2,7 +2,7 @@
 
 [de APP_INFO
   ("name"      "awscurl")
-  ("version"   "0.5.5")
+  ("version"   "0.6.0")
   ("summary"   "PicoLisp AWS CLI tool using OpenSSL and Curl")
   ("source"    "https://github.com/aw/picolisp-awscurl")
   ("author"    "Alexander Williams")
@@ -46,7 +46,7 @@
       (make
         (link 'curl "--silent" "--request" *Aws_method (pack "https://" *Aws_host *Aws_endpoint (when *Aws_query (pack "?" @))) "--header" Auth)
         (mapc '((S) (link "--header" (pack (car S) ": " (cdr S)))) Headers)
-        (when *Aws_data     (link "--data" *Aws_data))
+        (when *Aws_data     (link "--data" (cdr *Aws_data)))
         (when *Aws_verbose  (link "--verbose")) )
       (till NIL T) ]
 
@@ -87,9 +87,12 @@
         (cons "host" *Aws_host)
         (cons "x-amz-content-sha256" Sha256)
         (cons "x-amz-date" (pack *Aws_request_date "T" *Aws_request_time "Z")) )
-      (when *Aws_data           (link (cons "content-length" (length @))))
+      (when *Aws_data           (link (cons "content-length" (if (= "file" (car *Aws_data)) (car (info (cdr *Aws_data))) (length (cdr *Aws_data))))))
       (when *Aws_session_token  (link (cons "x-amz-security-token" @)))
       (mapc link *Aws_headers) ]
+
+[de awscurl-file-openssl (Filename)
+  (pack (clip (cadr (split (in (make (link 'openssl "dgst" "-sha256" Filename)) (line)) "=") ]
 
 [de awscurl-parse-openssl (Payload . @)
   (pack (clip (cadr (split (tc-call-msg (make (link 'openssl "dgst" "-sha256") (when (rest) (chain @))) Payload) "=") ]
@@ -109,7 +112,7 @@
 
 [de awscurl-start ()
   (awscurl-get-credentials)
-  (let (Sha256    (awscurl-parse-openssl *Aws_data)
+  (let (Sha256    (if (= "file" (car *Aws_data)) (awscurl-file-openssl (cdr *Aws_data)) (awscurl-parse-openssl (cdr *Aws_data)))
         Headers   (awscurl-sort-headers Sha256)
         Canonical (awscurl-make-canonical Sha256 Headers)
         Str2sign  (awscurl-make-canonical-hash Canonical)
@@ -117,6 +120,13 @@
         Auth      (awscurl-make-auth-header Headers Signature) )
 
     (awscurl-make-request Auth Headers) ]
+
+[de awscurl-data (Value)
+  (let Data (chop Value)
+    (setq *Aws_data
+      (if (and (= "@" (car Data)) (info (pack (cdr Data))))
+          (cons "file" (pack (cdr Data)))
+          (cons "data" Value) ]
 
 [de awscurl-headers (Key Value)
   (push '*Aws_headers (cons (lowc Key) (pack (clip (chop Value) ]
@@ -147,7 +157,7 @@
         (case @
           (--verbose  (on *Aws_verbose))
           (--request  (setq *Aws_method   (opt)))
-          (--data     (setq *Aws_data     (opt)))
+          (--data     (awscurl-data       (opt)))
           (--header   (awscurl-headers    (opt) (opt)))
           (--region   (setq *Aws_region   (opt)))
           (--service  (setq *Aws_service  (opt)))

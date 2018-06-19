@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0 (2018-06-19)
+
+  * Handle file uploads by accepting '--data @filename' parameter. #4
+
 ## 0.5.0 (2018-06-18)
 
   * Trim leading/trailing spaces from settings in credentials file. #5 (credit: @bl8dd3r)

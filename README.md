@@ -39,7 +39,8 @@ If any of those environment variables are not set, the values will be read from 
   * Call S3: List bucket content
 
 ```
-./awscurl.l --service s3 --host awscurl-sample-bucket.s3.amazonaws.com --region us-east-1
+./awscurl.l --service s3 --data @myfile.json --content-type 'application/json' --host awscurl-sample-bucket.s3.amazonaws.com --region us-east-1
+# NOTE: for files > 1KB, disable Expect header with: --header Expect ""
 ```
 
   * Call EC2:
