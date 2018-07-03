@@ -43,10 +43,15 @@ If any of those environment variables are not set, the values will be read from 
 # NOTE: for files > 1KB, disable Expect header with: --header Expect ""
 ```
 
-  * Call EC2:
+  * Call EC2 (DescribeRegions):
 
 ```
-./awscurl.l --service ec2 --host ec2.amazonaws.com --query 'Action=DescribeRegions&Version=2013-10-15'
+./awscurl.l --query 'Action=DescribeRegions&Version=2013-10-15'
+```
+
+  * Call EC2 (ImportKeyPair):
+```
+./awscurl.l --service ec2 --region ap-northeast-1 --host ap-northeast-1.ec2.amazonaws.com --query 'Action=ImportKeyPair&KeyName=my-key&Version=2016-11-15' --request POST --data 'PublicKeyMaterial=c3NoLXJzYSBBQUFBQjNOemFDMXljMkVBQUFBREFRQUJBQUFCQVFDMkxIRitwY1g3ZmRtVWZRMm53TUt5ZmQ5ZktFQWVaY2dOblB5UDhCdmZnTGtSREZsZjV5ODR5Q09UbWdlS05Fd2Y1Ujhoei9ySmNwVEpNcURNS0pnS29qWVp5bWNTYzhROFpsY3lQdm5BYXZ5UEJVdUZYbUZMRDlpckNBcXREK3cxSEFpaVNlZyszdXN1VC9Vc1NKNWNOU3g4em5lSVhmMW9aSzJHQmswck90cEtwVy94c3gyNnNtUWNQWkxCMVYxSVc5NmRkbm1kUTNtQU1RNndPVUtSMytwckRWN2dhc2xOUjVTdkdaZnFreGpaUHNXcFNGRFlqN3I3WkU5MjB3YjIrT1RHQ1NIa21maUlDNVI3REdrUEc3emhEbk1yMHVlb3Qra1JRNjE4bklvQTVDeFhiaHdJalFYVTRFYjl3YVZsaXhmeGpmY1hjZGcwSEMyRnc5SHAgYWxleAo='
 ```
 
   * Call API Gateway:
