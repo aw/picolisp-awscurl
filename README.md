@@ -12,9 +12,8 @@ This command line tool can be used to sign [AWS Signature Version 4](https://doc
 
 # Requirements
 
-  * PicoLisp 32-bit or 64-bit v3.1.11+
-  * Tested up to PicoLisp v18.6.5
-  * `openssl v1.0.0+`: for signing and hashing strings
+  * `picolisp`: 32-bit or 64-bit v3.1.11+ (tested up to v18.6.5)
+  * `openssl`: v1.0.0+ for signing and hashing strings
   * `curl`: for sending requests to the AWS APIs
 
 # Usage
@@ -73,7 +72,7 @@ Options:
   --header <key> <value>    HTTP header data (default: None)
   --host <host>             The Host of the AWS service (default: ec2.amazonaws.com)
   --query <query>           The Query parameters of the AWS service (default: None)
-  --region <region>         AWS region (default: us-east-2)
+  --region <region>         AWS region (default: us-east-1)
   --request <method>        Specify request method to use (default: GET)
   --service <service>       AWS service (default: ec2)
   --verbose                 Verbose flag (default: False)
