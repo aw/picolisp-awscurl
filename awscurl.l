@@ -2,7 +2,7 @@
 
 [de APP_INFO
   ("name"      "awscurl")
-  ("version"   "0.6.0")
+  ("version"   "0.6.1")
   ("summary"   "PicoLisp AWS CLI tool using OpenSSL and Curl")
   ("source"    "https://github.com/aw/picolisp-awscurl")
   ("author"    "Alexander Williams")
@@ -19,7 +19,7 @@
                ("--header <key> <value>"  "HTTP header data (default: None)")
                ("--host <host>"           "The Host of the AWS service (default: ec2.amazonaws.com)")
                ("--query <query>"         "The Query parameters of the AWS service (default: None)")
-               ("--region <region>"       "AWS region (default: us-east-2)")
+               ("--region <region>"       "AWS region (default: us-east-1)")
                ("--request <method>"      "Specify request method to use (default: GET)")
                ("--service <service>"     "AWS service (default: ec2)")
                ("--verbose"               "Verbose flag (default: False)")
@@ -28,7 +28,7 @@
 
 (setq
   *Aws_method           "GET"
-  *Aws_region           "us-east-2"
+  *Aws_region           "us-east-1"
   *Aws_service          "ec2"
   *Aws_host             "ec2.amazonaws.com"
   *Aws_endpoint         "/"
