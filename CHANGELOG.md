@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.0 (2018-07-13)
+
+  * Replace (++ L) with (pop 'L) for backward compat with older PicoLisp
+  * Add unit tests for awscurl library. #2
+  * Add Travis-CI automated testing
+
 ## 0.6.0 (2018-06-19)
 
   * Handle file uploads by accepting '--data @filename' parameter. #4
