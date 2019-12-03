@@ -2,7 +2,7 @@
 
 This command line tool can be used to sign [AWS Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html) requests and make calls to various AWS APIs.
 
-[![GitHub release](https://img.shields.io/github/release/aw/picolisp-awscurl.svg)](https://github.com/aw/picolisp-awscurl) [![Dependency](https://img.shields.io/badge/[deps]&#32;picolisp--unit-v2.1.0-ff69b4.svg)](https://github.com/aw/picolisp-unit.git) ![Build status](https://github.com/aw/picolisp-awscurl/workflows/CI/badge.svg?branch=master)
+[![GitHub release](https://img.shields.io/github/release/aw/picolisp-awscurl.svg)](https://github.com/aw/picolisp-awscurl) [![Dependency](https://img.shields.io/badge/[deps]&#32;picolisp--unit-v3.0.0-ff69b4.svg)](https://github.com/aw/picolisp-unit.git) ![Build status](https://github.com/aw/picolisp-awscurl/workflows/CI/badge.svg?branch=master)
 
   1. [Requirements](#requirements)
   2. [Usage](#usage)
