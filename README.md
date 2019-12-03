@@ -2,7 +2,7 @@
 
 This command line tool can be used to sign [AWS Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html) requests and make calls to various AWS APIs.
 
-[![GitHub release](https://img.shields.io/github/release/aw/picolisp-awscurl.svg)](https://github.com/aw/picolisp-awscurl) [![Build Status](https://travis-ci.org/aw/picolisp-awscurl.svg?branch=master)](https://travis-ci.org/aw/picolisp-awscurl) [![Dependency](https://img.shields.io/badge/[deps]&#32;picolisp--unit-v2.1.0-ff69b4.svg)](https://github.com/aw/picolisp-unit.git)
+[![GitHub release](https://img.shields.io/github/release/aw/picolisp-awscurl.svg)](https://github.com/aw/picolisp-awscurl) [![Dependency](https://img.shields.io/badge/[deps]&#32;picolisp--unit-v2.1.0-ff69b4.svg)](https://github.com/aw/picolisp-unit.git) ![Build status](https://github.com/aw/picolisp-awscurl/workflows/CI/badge.svg?branch=master)
 
   1. [Requirements](#requirements)
   2. [Usage](#usage)
@@ -14,9 +14,9 @@ This command line tool can be used to sign [AWS Signature Version 4](https://doc
 
 # Requirements
 
-  * `picolisp`: 32-bit or 64-bit v3.1.11+ (tested up to v18.6.5)
-  * `picolisp-unit`: v2.1.0+ for testing the library
-  * `openssl`: v1.0.0+ for signing and hashing strings
+  * `picolisp`: 32-bit or 64-bit `v3.1.11+`, tested up to PicoLisp `v19.11.25`, [see test runs](https://github.com/aw/picolisp-awscurl/commit/10ed3de175c949f6fed2f0a33a3226f977ee1b6b/checks)
+  * `picolisp-unit`: `v3.0.0+` for testing the library
+  * `openssl`: `v1.0.0+` for signing and hashing strings
   * `curl`: for sending requests to the AWS APIs
 
 ### Notes
