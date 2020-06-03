@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.0 (2020-06-03)
+
+  * Optionally output data to a file with '--output' parameter
+
 ## 0.8.0 (2020-06-03)
 
   * Optionally configure the protocol (http/https) with '--protocol' parameter
