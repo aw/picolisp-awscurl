@@ -2,12 +2,12 @@
 
 [de APP_INFO
   ("name"      "awscurl")
-  ("version"   "0.7.0")
+  ("version"   "0.8.0")
   ("summary"   "PicoLisp AWS CLI tool using OpenSSL and Curl")
   ("source"    "https://github.com/aw/picolisp-awscurl")
   ("author"    "Alexander Williams")
   ("license"   "MIT")
-  ("copyright" "(c) 2018 Alexander Williams, Unscramble <license@unscramble.jp>") ]
+  ("copyright" "(c) 2018-2020 Alexander Williams, Unscramble <license@unscramble.jp>") ]
 
 [de APP_HELP
   ("usage"     "./awscurl.l [options]")
@@ -18,6 +18,7 @@
                ("--endpoint <endpoint>"   "The API endpoint of the AWS service (default: /)")
                ("--header <key> <value>"  "HTTP header data (default: None)")
                ("--host <host>"           "The Host of the AWS service (default: ec2.amazonaws.com)")
+               ("--protocol http|https")  "Protocol for talking to AWS (default: https)"
                ("--query <query>"         "The Query parameters of the AWS service (default: None)")
                ("--region <region>"       "AWS region (default: us-east-1)")
                ("--request <method>"      "Specify request method to use (default: GET)")
@@ -58,6 +59,7 @@
           (--host     (setq *Aws_host     (opt)))
           (--endpoint (setq *Aws_endpoint (opt)))
           (--query    (setq *Aws_query    (opt)))
+          (--protocol (setq *Aws_protocol (opt)))
           (T          (tc-show-help) (bye 1)) ) )
       (awscurl-start) )
 

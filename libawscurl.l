@@ -1,6 +1,6 @@
 # picolisp-awscurl - https://github.com/aw/picolisp-awscurl
 #
-# Copyright (c) 2018 Alexander Williams, Unscramble <license@unscramble.jp>
+# Copyright (c) 2018-2020 Alexander Williams, Unscramble <license@unscramble.jp>
 # License MIT
 
 (setq
@@ -9,6 +9,7 @@
   *Aws_service          "ec2"
   *Aws_host             "ec2.amazonaws.com"
   *Aws_endpoint         "/"
+  *Aws_protocol         "https"
   *Aws_profile          (if (sys "AWS_PROFILE") @ "default")
   *Aws_access_key       (sys "AWS_ACCESS_KEY_ID")
   *Aws_secret_key       (sys "AWS_SECRET_ACCESS_KEY")
@@ -22,7 +23,7 @@
 
 [de awscurl-make-request (Auth Headers)
   (make
-    (link 'curl "--silent" "--request" *Aws_method (pack "https://" *Aws_host *Aws_endpoint (when *Aws_query (pack "?" @))) "--header" Auth)
+    (link 'curl "--silent" "--request" *Aws_method (pack *Aws_protocol "://" *Aws_host *Aws_endpoint (when *Aws_query (pack "?" @))) "--header" Auth)
     (mapc '((S) (link "--header" (pack (car S) ": " (cdr S)))) Headers)
     (when *Aws_data     (link "--data" (cdr *Aws_data)))
     (when *Aws_verbose  (link "--verbose") ]

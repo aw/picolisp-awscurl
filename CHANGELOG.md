@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0 (2020-06-03)
+
+  * Optionally configure the protocol (http/https) with '--protocol' parameter
+  * Fix typo in README.md
+  * Test with PicoLisp v20.x
+
 ## 0.7.0 (2018-07-13)
 
   * Replace (++ L) with (pop 'L) for backward compat with older PicoLisp

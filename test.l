@@ -92,6 +92,7 @@
   '(test-sort-headers)
   '(test-make-canonical)
   '(test-make-canonical-data)
+  '(assert-equal "https" *Aws_protocol "Ensure default protocol is HTTPS")
   ]
 
 (report)

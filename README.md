@@ -14,7 +14,7 @@ This command line tool can be used to sign [AWS Signature Version 4](https://doc
 
 # Requirements
 
-  * `picolisp`: 32-bit or 64-bit `v3.1.11+`, tested up to PicoLisp `v19.11.25`, [see test runs](https://github.com/aw/picolisp-awscurl/commit/10ed3de175c949f6fed2f0a33a3226f977ee1b6b/checks)
+  * `picolisp`: 32-bit or 64-bit `v3.1.11+`, tested up to PicoLisp `v20.5.26`, [see test runs](https://github.com/aw/picolisp-awscurl/actions/)
   * `picolisp-unit`: `v3.0.0+` for testing the library
   * `openssl`: `v1.0.0+` for signing and hashing strings
   * `curl`: for sending requests to the AWS APIs
@@ -45,7 +45,7 @@ If any of those environment variables are not set, the values will be read from 
   * Call S3: List bucket content
 
 ```
-./awscurl.l --service s3 --data @myfile.json --content-type 'application/json' --host awscurl-sample-bucket.s3.amazonaws.com --region us-east-1
+./awscurl.l --service s3 --data @myfile.json --header 'content-type' 'application/json' --host awscurl-sample-bucket.s3.amazonaws.com --region us-east-1
 # NOTE: for files > 1KB, disable Expect header with: --header Expect ""
 ```
 
@@ -78,6 +78,7 @@ Options:
   --endpoint <endpoint>     The API endpoint of the AWS service (default: /)
   --header <key> <value>    HTTP header data (default: None)
   --host <host>             The Host of the AWS service (default: ec2.amazonaws.com)
+  --protocol http|https     Protocol for talking to AWS (default: https)
   --query <query>           The Query parameters of the AWS service (default: None)
   --region <region>         AWS region (default: us-east-1)
   --request <method>        Specify request method to use (default: GET)
@@ -100,10 +101,10 @@ If you want to improve this tool, please make a pull-request.
 
 **Q:** Why not use `awscli`, `boto`, `awscurl`, `Ansible`, `Packer`, or one of many other available AWS SDKs?
 
-**A:** Size. It seems every single tool in existence is incredibly bloated and contains too many dependencies, too many features, and too much complexity. I really just wanted to make a handful of `EC2` calls from the command-line. This tool is slightly more flexible than what I needed, but it works _without_ any external dependencies other than what's already deployed on most Linux systems. For comparison, `Python awscurl` and its dependencies are `~18MB`, whereas this `PicoLisp awscurl` is `~6KB` on disk.
+**A:** Size. It seems every single tool in existence is incredibly bloated and contains too many dependencies, too many features, and too much complexity. I really just wanted to make a handful of `EC2` calls from the command-line. This tool is slightly more flexible than what I needed, but it works _without_ any external dependencies other than what's already deployed on most Linux systems. For comparison, `Python awscurl` and its dependencies are `~18MB`, whereas this `PicoLisp awscurl` is `~8KB` on disk.
 
 # License
 
 [MIT License](LICENSE)
 
-Copyright (c) 2018 Alexander Williams, Unscramble <license@unscramble.jp>
+Copyright (c) 2018-2020 Alexander Williams, Unscramble <license@unscramble.jp>
