@@ -26,8 +26,8 @@
     (link 'curl "--silent" "--request" *Aws_method (pack *Aws_protocol "://" *Aws_host *Aws_endpoint (when *Aws_query (pack "?" @))) "--header" Auth)
     (mapc '((S) (link "--header" (pack (car S) ": " (cdr S)))) Headers)
     (when *Aws_data     (link "--data" (cdr *Aws_data)))
-    (when *Aws_verbose  (link "--verbose")
-    (when *Aws_output   (link "--output" @)) ]
+    (when *Aws_verbose  (link "--verbose"))
+    (when *Aws_output   (link "--output" @) ]
 
 [de awscurl-make-auth-header (Headers Signature)
    (pack "Authorization: AWS4-HMAC-SHA256 Credential=" *Aws_access_key "/" *Aws_request_date "/" *Aws_region "/" *Aws_service "/aws4_request, SignedHeaders=" (glue ";"  (mapcar car Headers)) ", Signature=" Signature) ]
