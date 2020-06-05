@@ -52,7 +52,9 @@
   (make
     (link 'curl "--silent" "--request" *Aws_method (pack *Aws_protocol "://" *Aws_host *Aws_endpoint (when *Aws_query (pack "?" *Aws_query))) "--header" Auth)
     (mapc '((S) (link "--header" (pack (car S) ": " (cdr S)))) Headers)
-    (when *Aws_data     (link "--data" (cdr *Aws_data)))
+    [when *Aws_data     (if (= "file" (car *Aws_data))
+                            (link "--data-binary" (pack (char 64) (cdr *Aws_data)))
+                            (link "--data" (cdr *Aws_data)) ]
     (when *Aws_verbose  (link "--verbose"))
     (when *Aws_output   (link "--output" *Aws_output) ]
 
@@ -103,7 +105,9 @@
         (cons "host" *Aws_host)
         (cons "x-amz-content-sha256" Sha256)
         (cons "x-amz-date" (pack *Aws_request_date "T" *Aws_request_time "Z")) )
-      (when *Aws_data           (link (cons "content-length" (if (= "file" (car *Aws_data)) (car (info (cdr *Aws_data))) (length (cdr *Aws_data))))))
+      [when *Aws_data           (link (cons "content-length"  (if (= "file" (car *Aws_data))
+                                                                  (car (info (cdr *Aws_data)))
+                                                                  (length (cdr *Aws_data)) ]
       (when *Aws_session_token  (link (cons "x-amz-security-token" *Aws_session_token)))
       (mapc link *Aws_headers) ]
 

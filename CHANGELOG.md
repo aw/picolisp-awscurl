@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.0 (2020-06-05)
+
+  * Fix regression in 'curl' uploads, where binary data wasn't uploaded correctly.
+
 ## 0.10.0 (2020-06-05)
 
   * Optionally generate SHA256/HMAC hashes using 'libcrypto.so' with '--native' parameter
