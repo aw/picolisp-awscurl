@@ -79,7 +79,7 @@ Options:
   --endpoint <endpoint>     The API endpoint of the AWS service (default: /)
   --header <key> <value>    HTTP header data (default: None)
   --host <host>             The Host of the AWS service (default: ec2.amazonaws.com)
-  --native"                 Use faster 'native' calls for hashing data (64-bit version only, default: False)
+  --native                  Use faster 'native' calls for hashing data (64-bit version only, default: False)
   --output <file>           Filename where data should be output (default: STDOUT)
   --protocol http|https     Protocol for talking to AWS (default: https)
   --query <query>           The Query parameters of the AWS service (default: None)
