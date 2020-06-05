@@ -10,7 +10,7 @@ TEST_REF = v3.0.0
 
 .PHONY: all
 
-all: check
+all: check run-multi run-native
 
 $(TEST_DIR):
 		mkdir -p $(TEST_DIR) && \
@@ -18,7 +18,14 @@ $(TEST_DIR):
 		cd $(TEST_DIR) && \
 		git checkout $(TEST_REF)
 
-check: $(TEST_DIR) run-tests
+check: $(TEST_DIR) test-multi test-native
 
-run-tests:
+test-multi: $(TEST_DIR) run-multi
+
+run-multi:
 		./test.l
+
+test-native: $(TEST_DIR) run-native
+
+run-native:
+		./test.l native

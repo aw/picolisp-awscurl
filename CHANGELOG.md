@@ -1,8 +1,9 @@
 # Changelog
 
-## 0.9.0 (2020-06-03)
+## 0.10.0 (2020-06-05)
 
-  * Optionally output data to a file with '--output' parameter
+  * Optionally generate SHA256/HMAC hashes using 'libcrypto.so' with '--native' parameter
+  * Request creation is much faster with native hashing
 
 ## 0.8.0 (2020-06-03)
 

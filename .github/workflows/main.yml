@@ -21,5 +21,10 @@ jobs:
           version: ${{matrix.version}}
           architecture: ${{matrix.arch}}
 
-      - name: Run the tests on PicoLisp ${{matrix.arch}} v${{matrix.version}}
+      - name: Run the tests on PicoLisp (32-bit) v${{matrix.version}}
+        run: make test-multi
+        if: ${{ matrix.arch == 'src' }}
+
+      - name: Run the tests on PicoLisp (64-bit) v${{matrix.version}}
         run: make check
+        if: ${{ matrix.arch == 'src64' }}

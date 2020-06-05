@@ -17,38 +17,75 @@
   *Aws_request_date     (dat$ (date T))
   *Aws_request_time     (pack (mapcar '((S) (pad 2 S)) (time (time T)))) )
 
+### native
+[de awscurl-native-sha256 (Payload)
+  (native "libcrypto.so" "SHA256" '(B . 32) Payload (length Payload) '(NIL (32) ]
+
+[de awscurl-native-hmac (Key Length Payload)
+  (let Evp (native "libcrypto.so" "EVP_sha256" 'N)
+    (native "libcrypto.so" "HMAC" '(B . 32) Evp Key Length Payload (length Payload) 0 '(NIL (32) ]
+
+# Key = hex string
+[de awscurl-native-make-hmac (Key Payload)
+  (let (*Key        (chop Key)
+        *Iterations (/ (length *Key) 2)
+        *P          (native "@" "malloc" 'N *Iterations) ) # allocate some memory to store the key
+
+    (for N *Iterations
+      [byte (+ *P (- N 1)) (hex (pack (cut 2 '*Key) ] # store the hex value in a byte
+    )
+    (byte (+ *P *Iterations 1) 0) # store a null byte
+    (let Result (awscurl-list-to-hex (awscurl-native-hmac *P *Iterations Payload))
+      (native "@" "free" NIL *P) # free the memory
+      Result ]
+
+[de awscurl-parse-native (Payload Key)
+  (if Key
+      (awscurl-native-make-hmac Key Payload)
+      (awscurl-list-to-hex (awscurl-native-sha256 Payload) ]
+
 ### main
 [de awscurl-make-curl (Cmd)
   (prin (in Cmd (till NIL T) ]
 
 [de awscurl-make-request (Auth Headers)
   (make
-    (link 'curl "--silent" "--request" *Aws_method (pack *Aws_protocol "://" *Aws_host *Aws_endpoint (when *Aws_query (pack "?" @))) "--header" Auth)
+    (link 'curl "--silent" "--request" *Aws_method (pack *Aws_protocol "://" *Aws_host *Aws_endpoint (when *Aws_query (pack "?" *Aws_query))) "--header" Auth)
     (mapc '((S) (link "--header" (pack (car S) ": " (cdr S)))) Headers)
     (when *Aws_data     (link "--data" (cdr *Aws_data)))
     (when *Aws_verbose  (link "--verbose"))
-    (when *Aws_output   (link "--output" @) ]
+    (when *Aws_output   (link "--output" *Aws_output) ]
 
 [de awscurl-make-auth-header (Headers Signature)
    (pack "Authorization: AWS4-HMAC-SHA256 Credential=" *Aws_access_key "/" *Aws_request_date "/" *Aws_region "/" *Aws_service "/aws4_request, SignedHeaders=" (glue ";"  (mapcar car Headers)) ", Signature=" Signature) ]
 
+[de awscurl-list-to-hex (List)
+  (lowc (pack (mapcar '((N) (pad 2 (hex N))) List) ]
+
+[de awscurl-string-to-hex (String)
+  (awscurl-list-to-hex (mapcar char (chop String) ]
+
 [de awscurl-make-hmac (Key Payload)
-  (awscurl-parse-openssl Payload "-mac" "HMAC" "-macopt" Key) ]
+  (if *Aws_native
+      (awscurl-parse-native Payload Key)
+      (awscurl-parse-openssl Payload "-mac" "HMAC" "-macopt" (pack "hexkey:" Key) ]
 
 [de awscurl-make-signature (Str2sign)
-  (let (A (awscurl-make-hmac (pack "key:AWS4" *Aws_secret_key) *Aws_request_date)
-        B (awscurl-make-hmac (pack "hexkey:" A) *Aws_region)
-        C (awscurl-make-hmac (pack "hexkey:" B) *Aws_service)
-        D (awscurl-make-hmac (pack "hexkey:" C) "aws4_request") )
+  (let (A (awscurl-make-hmac (awscurl-string-to-hex (pack "AWS4" *Aws_secret_key)) *Aws_request_date)
+        B (awscurl-make-hmac A *Aws_region)
+        C (awscurl-make-hmac B *Aws_service)
+        D (awscurl-make-hmac C "aws4_request") )
 
-    (awscurl-make-hmac (pack "hexkey:" D) Str2sign) ]
+    (awscurl-make-hmac D Str2sign) ]
 
 [de awscurl-make-canonical-hash (Canonical)
   (pack
     "AWS4-HMAC-SHA256" "^J"
     *Aws_request_date "T" *Aws_request_time "Z" "^J"
     *Aws_request_date "/" *Aws_region "/" *Aws_service "/aws4_request" "^J"
-    (awscurl-parse-openssl Canonical) ]
+    (if *Aws_native
+        (awscurl-parse-native Canonical)
+        (awscurl-parse-openssl Canonical) ]
 
 [de awscurl-make-canonical (Hash Headers)
   (pack
@@ -67,7 +104,7 @@
         (cons "x-amz-content-sha256" Sha256)
         (cons "x-amz-date" (pack *Aws_request_date "T" *Aws_request_time "Z")) )
       (when *Aws_data           (link (cons "content-length" (if (= "file" (car *Aws_data)) (car (info (cdr *Aws_data))) (length (cdr *Aws_data))))))
-      (when *Aws_session_token  (link (cons "x-amz-security-token" @)))
+      (when *Aws_session_token  (link (cons "x-amz-security-token" *Aws_session_token)))
       (mapc link *Aws_headers) ]
 
 [de awscurl-file-openssl (Filename)
@@ -91,7 +128,11 @@
 
 [de awscurl-start ()
   (awscurl-get-credentials)
-  (let (Sha256    (if (= "file" (car *Aws_data)) (awscurl-file-openssl (cdr *Aws_data)) (awscurl-parse-openssl (cdr *Aws_data)))
+  (let (Sha256    (if (= "file" (car *Aws_data))
+                      (awscurl-file-openssl (cdr *Aws_data))
+                      (if *Aws_native
+                          (awscurl-parse-native (cdr *Aws_data))
+                          (awscurl-parse-openssl (cdr *Aws_data)) ) )
         Headers   (awscurl-sort-headers Sha256)
         Canonical (awscurl-make-canonical Sha256 Headers)
         Str2sign  (awscurl-make-canonical-hash Canonical)
@@ -103,7 +144,7 @@
 [de awscurl-data (Value)
   (let Data (chop Value)
     (setq *Aws_data
-      (if (and (= "@" (car Data)) (info (pack (cdr Data))))
+      (if (and (= (char 64) (car Data)) (info (pack (cdr Data))))
           (cons "file" (pack (cdr Data)))
           (cons "data" Value) ]
 

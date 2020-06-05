@@ -15,6 +15,7 @@ This command line tool can be used to sign [AWS Signature Version 4](https://doc
 # Requirements
 
   * `picolisp`: 32-bit or 64-bit `v3.1.11+`, tested up to PicoLisp `v20.5.26`, [see test runs](https://github.com/aw/picolisp-awscurl/actions/)
+  * `libcrypto.so`: for using `--native` functions with PicoLisp `v17.12+`
   * `picolisp-unit`: `v3.0.0+` for testing the library
   * `openssl`: `v1.0.0+` for signing and hashing strings
   * `curl`: for sending requests to the AWS APIs
@@ -78,6 +79,7 @@ Options:
   --endpoint <endpoint>     The API endpoint of the AWS service (default: /)
   --header <key> <value>    HTTP header data (default: None)
   --host <host>             The Host of the AWS service (default: ec2.amazonaws.com)
+  --native"                 Use faster 'native' calls for hashing data (64-bit version only, default: False)
   --output <file>           Filename where data should be output (default: STDOUT)
   --protocol http|https     Protocol for talking to AWS (default: https)
   --query <query>           The Query parameters of the AWS service (default: None)

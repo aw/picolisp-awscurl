@@ -9,6 +9,8 @@
   *Aws_request_date "20180713"
   *Aws_request_time "052018" )
 
+(when (= "native" (opt)) (on *Aws_native))
+
 # Default HOME to 'test' dir
 (sys "HOME" "test")
 
@@ -86,6 +88,10 @@
   '(test-headers-normalized)
   '(test-data-read)
   '(test-get-credentials)
+  (when *Aws_native
+    '(assert-equal "cf80cd8aed482d5d1527d7dc72fceff84e6326592848447d2dc0b0e87dfc9a90" (awscurl-parse-native "testing") "Ensure OpenSSL hashes a string (native)")
+    '(assert-equal "8f19bc12c7f2f3f31c2435645ff0e457d4e87f676b08d9db4ba3271bb2c3e87a" (awscurl-parse-native "testing" "cf80cd8aed482d5d1527d7dc72fceff84e6326592848447d2dc0b0e87dfc9a90") "Ensure OpenSSL hashes a string with HMAC (native)")
+  )
   '(assert-equal "cf80cd8aed482d5d1527d7dc72fceff84e6326592848447d2dc0b0e87dfc9a90" (awscurl-parse-openssl "testing") "Ensure OpenSSL hashes a string")
   '(assert-equal "8f19bc12c7f2f3f31c2435645ff0e457d4e87f676b08d9db4ba3271bb2c3e87a" (awscurl-parse-openssl "testing" "-mac" "HMAC" "-macopt" "hexkey:cf80cd8aed482d5d1527d7dc72fceff84e6326592848447d2dc0b0e87dfc9a90") "Ensure OpenSSL hashes a string with HMAC")
   '(assert-equal "9a78a98c394ec90a0bc17d994c257bfbe9aa6f30f6837efb37c1f46ad86f75c6" (awscurl-file-openssl "test/data.json") "Ensure OpenSSL hashes a file")
