@@ -14,7 +14,7 @@ This command line tool can be used to sign [AWS Signature Version 4](https://doc
 
 # Requirements
 
-  * `picolisp`: 32-bit or 64-bit `v3.1.11+`, tested up to PicoLisp `v20.5.26`, [see test runs](https://github.com/aw/picolisp-awscurl/actions/)
+  * `picolisp`: 32-bit or 64-bit `v3.1.11+`, tested up to PicoLisp `v20.6.29`, [see test runs](https://github.com/aw/picolisp-awscurl/actions/)
   * `libcrypto.so`: for using `--native` functions with PicoLisp `v17.12+`
   * `picolisp-unit`: `v3.0.0+` for testing the library
   * `openssl`: `v1.0.0+` for signing and hashing strings
