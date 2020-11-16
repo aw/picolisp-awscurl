@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0 (2020-11-16)
+
+  * Declare library as **STABLE**: `v1.0`
+  * Test with pil21
+  * Update `picolisp-unit` dependency to `v3.1.0`
+
 ## 0.11.0 (2020-06-05)
 
   * Fix regression in 'curl' uploads, where binary data wasn't uploaded correctly.

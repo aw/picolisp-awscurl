@@ -2,7 +2,7 @@
 
 This command line tool can be used to sign [AWS Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html) requests and make calls to various AWS APIs.
 
-[![GitHub release](https://img.shields.io/github/release/aw/picolisp-awscurl.svg)](https://github.com/aw/picolisp-awscurl) [![Dependency](https://img.shields.io/badge/[deps]&#32;picolisp--unit-v3.0.0-ff69b4.svg)](https://github.com/aw/picolisp-unit.git) ![Build status](https://github.com/aw/picolisp-awscurl/workflows/CI/badge.svg?branch=master)
+[![GitHub release](https://img.shields.io/github/release/aw/picolisp-awscurl.svg)](https://github.com/aw/picolisp-awscurl) [![Dependency](https://img.shields.io/badge/[deps]&#32;picolisp--unit-v3.1.0-ff69b4.svg)](https://github.com/aw/picolisp-unit.git) ![Build status](https://github.com/aw/picolisp-awscurl/workflows/CI/badge.svg?branch=master)
 
   1. [Requirements](#requirements)
   2. [Usage](#usage)
@@ -14,7 +14,7 @@ This command line tool can be used to sign [AWS Signature Version 4](https://doc
 
 # Requirements
 
-  * `picolisp`: 32-bit or 64-bit `v3.1.11+`, tested up to PicoLisp `v20.6.29`, [see test runs](https://github.com/aw/picolisp-awscurl/actions/)
+  * `picolisp`: 32-bit or 64-bit `v3.1.11+`, tested up to PicoLisp `v20.6.29` and `pil21`, [see test runs](https://github.com/aw/picolisp-awscurl/actions/)
   * `libcrypto.so`: for using `--native` functions with PicoLisp `v17.12+`
   * `picolisp-unit`: `v3.0.0+` for testing the library
   * `openssl`: `v1.0.0+` for signing and hashing strings
@@ -24,11 +24,15 @@ This command line tool can be used to sign [AWS Signature Version 4](https://doc
 
 The file `libawscurl.l` can be included as a library, rather than using the command line `awscurl.l`. Function are prefixed with `awscurl-` and variables are prefixed with `*Aws_`.
 
+### Stability
+
+This library is now declared **stable** and should be suitable for use in production environments.
+
 # Usage
 
 ## WARNING
 
-There is currently **no validation** on command line arguments. Be careful the input you provide. [See issue #1](https://github.com/aw/picolisp-awscurl/issues/1)
+There is **no validation** on command line arguments. Be careful the input you provide. [See issue #1](https://github.com/aw/picolisp-awscurl/issues/1)
 
 ### Environment variables
 

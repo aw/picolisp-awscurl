@@ -2,7 +2,7 @@
 
 [de APP_INFO
   ("name"      "awscurl")
-  ("version"   "0.11.0")
+  ("version"   "1.0.0")
   ("summary"   "PicoLisp AWS CLI tool using OpenSSL and Curl")
   ("source"    "https://github.com/aw/picolisp-awscurl")
   ("author"    "Alexander Williams")
